@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function CTA() {
   return (
@@ -19,13 +20,13 @@ export default function CTA() {
           Join hundreds of businesses using AI voice agents to save time, close more deals, and never miss a call.
         </p>
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button className="btn-primary px-8 py-4 rounded-xl text-base font-semibold tracking-wide flex items-center gap-2 group">
+          <Link to="/contact" className="btn-primary px-8 py-4 rounded-xl text-base font-semibold tracking-wide flex items-center gap-2 group">
             Build Your Free Agent
             <ArrowRight className="group-hover:translate-x-1 transition-transform" size={18} />
-          </button>
-          <button className="btn-ghost px-8 py-4 rounded-xl text-base font-medium flex items-center gap-2">
+          </Link>
+          <Link to="/contact" className="btn-ghost px-8 py-4 rounded-xl text-base font-medium flex items-center gap-2">
             Talk to Sales
-          </button>
+          </Link>
         </div>
       </div>
     </section>

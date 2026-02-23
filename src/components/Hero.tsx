@@ -1,4 +1,5 @@
 import { Headphones, Phone, PhoneCall, ChevronDown } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
@@ -23,13 +24,13 @@ export default function Hero() {
           The most flexible voice AI platform. Build, deploy, and scale inbound & outbound agents in minutes. Fluent in Many Languages. Zero vendor lock-in.
         </p>
         <div className="flex flex-col sm:flex-row items-center gap-4 mb-14 animate-fadeInUp" style={{ animationDelay: '0.5s' }}>
-          <a className="group relative bg-[var(--accent-primary)] text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(108,92,231,0.4)] flex items-center gap-2" href="#">
+          <Link to="/contact" className="group relative bg-[var(--accent-primary)] text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(108,92,231,0.4)] flex items-center gap-2">
             Build Your Agent
             <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
-          </a>
-          <a className="px-8 py-4 rounded-xl border border-[var(--border-active)] text-[var(--text-secondary)] font-medium text-lg hover:border-[var(--accent-glow)] hover:text-white transition-colors duration-300 bg-transparent" href="#">
+          </Link>
+          <Link to="/contact" className="px-8 py-4 rounded-xl border border-[var(--border-active)] text-[var(--text-secondary)] font-medium text-lg hover:border-[var(--accent-glow)] hover:text-white transition-colors duration-300 bg-transparent">
             Talk to Sales
-          </a>
+          </Link>
         </div>
         <div className="w-full max-w-[480px] bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-2xl p-6 card-glow animate-fadeInUp relative group" style={{ animationDelay: '0.7s' }}>
           <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[rgba(108,92,231,0.1)] to-[rgba(34,211,238,0.1)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>

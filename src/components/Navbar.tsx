@@ -1,4 +1,5 @@
 import { AudioLines } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   return (
@@ -25,9 +26,9 @@ export default function Navbar() {
         </div>
         <div className="flex items-center gap-4">
           <a className="hidden md:block text-[var(--text-secondary)] font-medium text-[15px] hover:text-white transition-colors" href="#">Log In</a>
-          <a className="bg-[var(--accent-primary)] hover:bg-[#7d6ef0] text-white font-bold text-[15px] px-5 py-2.5 rounded-lg transition-all duration-300 btn-glow" href="#">
+          <Link to="/contact" className="bg-[var(--accent-primary)] hover:bg-[#7d6ef0] text-white font-bold text-[15px] px-5 py-2.5 rounded-lg transition-all duration-300 btn-glow">
             Get Started Free
-          </a>
+          </Link>
         </div>
       </div>
     </nav>
