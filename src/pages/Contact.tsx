@@ -9,7 +9,7 @@ export default function Contact() {
       email: 'alifarman.3021@gmail.com',
       phone: '+8801671300377',
       whatsapp: '+8801671300377',
-      image: 'https://images.unsplash.com/photo-1618077360395-f3068be8e001?q=80&w=2080&auto=format&fit=crop', // Handsome full beard
+      image: 'https://i.ibb.co.com/1GcjWXVQ/Gemini-Generated-Image-32zx9932zx9932zx.png',
     },
     {
       name: 'Salman MD Abdullah',
@@ -17,7 +17,7 @@ export default function Contact() {
       email: '',
       phone: '+8801710589662',
       whatsapp: '+8801710589662',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=2080&auto=format&fit=crop', // Clean beard with glasses
+      image: 'https://i.ibb.co.com/R4Vs64Y8/Gemini-Generated-Image-loudc1loudc1loud.png',
     }
   ];
 
