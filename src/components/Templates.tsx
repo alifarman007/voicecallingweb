@@ -67,7 +67,7 @@ export default function Templates() {
             <div key={i} className={`group agent-card relative rounded-3xl overflow-hidden border border-[var(--border-subtle)] h-[440px] cursor-pointer card-${tpl.title.toLowerCase().split(' ')[0]}`}>
               <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ backgroundColor: `${tpl.hex}05` }}></div>
               <div className="h-[260px] w-full relative overflow-hidden bg-[#151518]">
-                <img alt={tpl.title} className="agent-img w-full h-full object-cover object-center" src={tpl.img} loading="lazy" decoding="async" />
+                <img alt={`Portrait of ${tpl.title} AI agent`} className="agent-img w-full h-full object-cover object-center" src={tpl.img} loading="lazy" decoding="async" />
                 <div className="agent-overlay absolute inset-0"></div>
                 <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md border border-white/10 rounded-full px-3 py-1 flex items-center gap-1.5">
                   <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: tpl.hex }}></div>

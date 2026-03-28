@@ -7,7 +7,10 @@ export default function Footer() {
         <div className="col-span-1">
           <div className="flex items-center gap-2 mb-4">
             <AudioLines className="text-[var(--accent-primary)]" size={24} />
-            <span className="font-bold text-xl text-white font-cabinet">KOTHA AI</span>
+            <div className="flex flex-col">
+              <span className="font-bold text-xl text-white font-cabinet leading-none">KOTHA AI</span>
+              <span className="text-[9px] text-[var(--text-tertiary)] uppercase tracking-[0.2em] mt-1 font-medium">Your Voice, Automated</span>
+            </div>
           </div>
           <p className="text-[var(--text-secondary)] text-sm mb-6">The most flexible voice AI platform.</p>
           <div className="flex gap-4">
@@ -44,7 +47,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-[var(--border-subtle)] flex flex-col md:flex-row justify-between text-xs text-[var(--text-tertiary)]">
-        <p>© 2025 KOTHA AI Platform. All rights reserved.</p>
+        <p>© 2026 KOTHA AI Platform. All rights reserved.</p>
         <p>Made with 💜 in Bangladesh</p>
       </div>
     </footer>

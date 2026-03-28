@@ -13,7 +13,7 @@ export default function Architecture() {
             </div>
             <div className="space-y-4">
               <h2 className="text-4xl lg:text-5xl font-bold text-[var(--text-primary)] leading-tight font-cabinet">
-                Absolute Control. <br /> Zero Vendor Lock-in.
+                Your Language Stack. <br /> Your Rules.
               </h2>
               <p className="text-lg text-[var(--text-secondary)] leading-relaxed max-w-lg">
                 Build your agent your way. Swap STT, LLM, and TTS engines in real-time — balance cost, speed, and intelligence with a single click.
@@ -82,7 +82,7 @@ export default function Architecture() {
                   <div className="diagram-node w-24 h-12 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg flex items-center justify-center text-[11px] font-medium text-[var(--text-secondary)] cursor-pointer">Kokoro</div>
                 </div>
                 
-                <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" fill="none" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <linearGradient id="line-gradient-left" x1="0%" x2="100%" y1="0%" y2="0%">
                       <stop offset="0%" stopColor="#333"></stop>
@@ -97,15 +97,20 @@ export default function Architecture() {
                       <stop offset="100%" stopColor="#6C5CE7"></stop>
                     </linearGradient>
                   </defs>
-                  <path d="M120 40 L250 170" stroke="url(#line-gradient-top)" strokeOpacity="0.3" strokeWidth="1.5"></path>
-                  <path className="diagram-line" d="M250 40 L250 170" stroke="url(#line-gradient-top)" strokeWidth="2"></path>
-                  <path d="M380 40 L250 170" stroke="url(#line-gradient-top)" strokeOpacity="0.3" strokeWidth="1.5"></path>
-                  <path className="diagram-line" d="M96 200 L170 250" stroke="url(#line-gradient-left)" strokeWidth="2"></path>
-                  <path d="M96 250 L170 250" stroke="url(#line-gradient-left)" strokeOpacity="0.3" strokeWidth="1.5"></path>
-                  <path d="M96 300 L170 250" stroke="url(#line-gradient-left)" strokeOpacity="0.3" strokeWidth="1.5"></path>
-                  <path className="diagram-line" d="M330 250 L404 200" stroke="url(#line-gradient-right)" strokeWidth="2"></path>
-                  <path d="M330 250 L404 250" stroke="url(#line-gradient-right)" strokeOpacity="0.3" strokeWidth="1.5"></path>
-                  <path d="M330 250 L404 300" stroke="url(#line-gradient-right)" strokeOpacity="0.3" strokeWidth="1.5"></path>
+                  {/* Top to Center */}
+                  <line x1="25%" y1="10%" x2="50%" y2="50%" stroke="url(#line-gradient-top)" strokeOpacity="0.3" strokeWidth="1.5" />
+                  <line className="diagram-line" x1="50%" y1="10%" x2="50%" y2="50%" stroke="url(#line-gradient-top)" strokeWidth="2" />
+                  <line x1="75%" y1="10%" x2="50%" y2="50%" stroke="url(#line-gradient-top)" strokeOpacity="0.3" strokeWidth="1.5" />
+                  
+                  {/* Left to Center */}
+                  <line className="diagram-line" x1="20%" y1="25%" x2="50%" y2="50%" stroke="url(#line-gradient-left)" strokeWidth="2" />
+                  <line x1="20%" y1="50%" x2="50%" y2="50%" stroke="url(#line-gradient-left)" strokeOpacity="0.3" strokeWidth="1.5" />
+                  <line x1="20%" y1="75%" x2="50%" y2="50%" stroke="url(#line-gradient-left)" strokeOpacity="0.3" strokeWidth="1.5" />
+
+                  {/* Center to Right */}
+                  <line className="diagram-line" x1="50%" y1="50%" x2="80%" y2="25%" stroke="url(#line-gradient-right)" strokeWidth="2" />
+                  <line x1="50%" y1="50%" x2="80%" y2="50%" stroke="url(#line-gradient-right)" strokeOpacity="0.3" strokeWidth="1.5" />
+                  <line x1="50%" y1="50%" x2="80%" y2="75%" stroke="url(#line-gradient-right)" strokeOpacity="0.3" strokeWidth="1.5" />
                 </svg>
               </div>
             </div>

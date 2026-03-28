@@ -5,7 +5,7 @@ export default function Contact() {
   const contacts = [
     {
       name: 'Alif Arman',
-      role: 'Managerial Director',
+      role: 'Managing Director',
       email: 'alifarman.3021@gmail.com',
       phone: '+8801671300377',
       whatsapp: '+8801671300377',
@@ -13,7 +13,7 @@ export default function Contact() {
     },
     {
       name: 'Salman MD Abdullah',
-      role: 'Managerial Director',
+      role: 'Managing Director',
       email: '',
       phone: '+8801710589662',
       whatsapp: '+8801710589662',

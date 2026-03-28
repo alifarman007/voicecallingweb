@@ -50,9 +50,11 @@ export default function Pricing() {
             <div className="mb-8">
               <h3 className="text-2xl font-semibold text-[var(--text-primary)] mb-2 font-cabinet">Pay-as-you-Go</h3>
               <div className="flex items-baseline gap-1">
-                <span className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-white to-[var(--accent-glow)]">Variable</span>
+                <span className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-white to-[var(--accent-glow)]">$0.09</span>
+                <span className="text-[var(--text-secondary)]">/min</span>
               </div>
               <p className="text-sm text-[var(--text-secondary)] mt-2">STT + LLM + TTS bundled</p>
+              <p className="text-[10px] text-[var(--text-tertiary)] mt-1 italic">* Price may vary depending on the models</p>
             </div>
             <ul className="space-y-4 mb-8">
               <li className="flex items-start gap-3 text-[var(--text-primary)] text-sm font-medium">

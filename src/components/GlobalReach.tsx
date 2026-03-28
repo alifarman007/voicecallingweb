@@ -41,8 +41,9 @@ export default function GlobalReach() {
             <span className="text-[12px] font-medium tracking-[0.15em] text-[var(--accent-cyan)] uppercase">Global Reach</span>
           </div>
           <h2 className="text-4xl md:text-5xl lg:text-[56px] font-bold leading-[1.1] text-[var(--text-primary)] mb-6 font-cabinet">
-            Speak to <span className="text-gradient-purple-cyan">the World.</span> <br className="hidden md:block" />
-            Master the <span className="text-[var(--accent-green)]">Local Market.</span>
+            Every <span className="text-gradient-purple-cyan">Language.</span> <br className="hidden md:block" />
+            Every <span className="text-[var(--accent-green)]">Accent.</span> <br className="hidden md:block" />
+            One Platform.
           </h2>
           <p className="text-lg md:text-[20px] font-medium text-[var(--text-secondary)] mb-8 max-w-2xl mx-auto">
             Communicate flawlessly in <span className="text-[var(--text-primary)] font-bold">50+</span> global languages — Now with <span className="text-[var(--accent-green)] font-bold">Native Bangla Support</span>.

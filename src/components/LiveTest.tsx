@@ -198,10 +198,11 @@ export default function LiveTest() {
         </div>
 
         <div className="w-full mb-8 relative">
-          <label className="text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wider mb-2 block text-center">Select Language</label>
+          <label htmlFor="language-select" className="text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wider mb-2 block text-center">Select Language</label>
           <div className="relative max-w-[240px] mx-auto">
             <Globe className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]" size={16} />
             <select 
+              id="language-select"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
               disabled={callState !== 'idle'}
@@ -227,6 +228,7 @@ export default function LiveTest() {
             onClick={callState === 'idle' ? startCall : undefined}
             disabled={callState === 'connecting' || callState === 'ending'}
             className={getButtonClass()}
+            aria-label={callState === 'idle' ? 'Start Call' : callState === 'connecting' ? 'Connecting' : callState === 'listening' ? 'Listening' : callState === 'speaking' ? 'Agent Speaking' : 'Ending Call'}
           >
             {getButtonContent()}
           </button>

@@ -1,5 +1,6 @@
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
+import DemoSection from '../components/DemoSection';
 import PoweredBy from '../components/PoweredBy';
 import GlobalReach from '../components/GlobalReach';
 import Templates from '../components/Templates';
@@ -14,6 +15,7 @@ export default function Home() {
       <Navbar />
       <main className="pt-20">
         <Hero />
+        <DemoSection />
         <PoweredBy />
         <GlobalReach />
         <Templates />
