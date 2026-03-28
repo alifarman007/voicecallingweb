@@ -81,13 +81,13 @@ export default function LiveTest() {
       // Ignore process undefined errors
     }
     
-    // Fallback to Vite env vars if running locally, or the provided key
+    // Use environment variable only - never hardcode API keys
     if (!apiKey) {
-      apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY || 'AIzaSyC3UdIgVbI5_48pQb4p0oGgv059QYWYYZs';
+      apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY || '';
     }
 
     if (!apiKey || apiKey === 'MY_GEMINI_API_KEY') {
-      setError('API Key is missing. Please ensure it is provided in the environment.');
+      setError('API key not configured. Please set VITE_GEMINI_API_KEY in your environment variables.');
       setCallState('idle');
       return;
     }
