@@ -1,9 +1,14 @@
-import { useState } from 'react';
-import { Mail, Phone, MessageCircle, ClipboardCheck, Monitor, Rocket, Globe, Zap, ShieldCheck, CheckCircle2, Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Mail, Phone, MessageCircle, ClipboardCheck, Monitor, Rocket, Globe, Zap, ShieldCheck, CheckCircle2, Loader2, ArrowDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 
 export default function Contact() {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -95,9 +100,16 @@ export default function Contact() {
           <h1 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)] mb-6 font-cabinet">
             Let's Build Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-cyan)]">AI Agent</span>
           </h1>
-          <p className="text-lg text-[var(--text-secondary)]">
+          <p className="text-lg text-[var(--text-secondary)] mb-8">
             Tell us about your business and we'll set up the perfect voice AI solution — or reach out directly to our team.
           </p>
+          <button 
+            onClick={() => document.getElementById('team')?.scrollIntoView({ behavior: 'smooth' })}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--bg-tertiary)] border border-[var(--border-subtle)] hover:border-[var(--accent-cyan)] text-[var(--text-secondary)] hover:text-white transition-all text-sm font-medium group"
+          >
+            Meet our Managing Directors 
+            <ArrowDown size={16} className="group-hover:translate-y-1 transition-transform" />
+          </button>
         </div>
 
         {/* Main Content: Two Columns */}
@@ -286,7 +298,7 @@ export default function Contact() {
         </div>
 
         {/* Direct Contact Section */}
-        <div className="animate-fadeInUp" style={{ animationDelay: '0.3s' }}>
+        <div id="team" className="animate-fadeInUp scroll-mt-12" style={{ animationDelay: '0.3s' }}>
           <div className="h-px w-full bg-[var(--border-subtle)] mb-12"></div>
           
           <div className="text-center mb-10">
