@@ -10,7 +10,7 @@ export default function Templates() {
       color: 'green',
       hex: '#10B981',
       icon: <Headphones className="text-white" size={24} />,
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC540fHvA3coVap36FE2n9MRUNZjOlYh3z9Lg7dhWK-3g4UHRpGtqio9Ap5VqEVnRPflcN8UaY_Y8ASUxknd0vqGeUWylxhQVsGRZcfxZ2gEHwm1PkqxAVjCU-vzNoFDiZj7YAI3QnYrz0qz38k8z9BjKcM8RwpA2CIb4vOF1M9XP2pTBcfm-x5iqfqZ30IFgmn6tfx8mZ8KDvXJseH3JqxEQnlL8ZAFEzVajN0L7ogrp0EGD-txsR4-jjm0bfQ_c20OXPVbjj3nKUq'
+      img: 'https://i.ibb.co.com/s9NhQSqk/Gemini-Generated-Image-elafmcelafmcelaf-1.png'
     },
     {
       title: 'Sales Agent',
@@ -20,27 +20,27 @@ export default function Templates() {
       color: 'amber',
       hex: '#F59E0B',
       icon: <Rocket className="text-white" size={24} />,
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD2S5_hYo432xNh847tAn0VV5sNoVnGXfyKPikMEKnFvm1gfaRxqCulWOR3Dg9UiSvetAqfzPrwLpXZFEpZxIyaJCWDVv-oD2Ih3A7yAKNYL76pKIFA-XC59RBKy7L__4CHJeeX4LC3-xZDh-6PwzRlHB_PSijiKPRBm3LvEzJ092JTk1c837dN1SDkLw7rNao0ytUplRXmOHOjOEKKos1BXaWpoStozYypw5FZ58sE2XWUWBbqG1r6OIgEn-GfLAxAfDCw1Mapa5iG'
+      img: 'https://i.ibb.co.com/gMsmD0gd/Gemini-Generated-Image-xi89jzxi89jzxi89-1.png'
     },
     {
-      title: 'Feedback Agent',
-      desc: 'Collects NPS scores, reviews, and customer insights at scale.',
-      tags: ['SaaS', 'Retail'],
+      title: 'Appointment Booking Agent',
+      desc: 'Seamlessly schedules, reschedules, and manages calendar appointments 24/7.',
+      tags: ['Healthcare', 'Services'],
       voice: 'Emma (AU)',
       color: 'cyan',
       hex: '#22D3EE',
       icon: <ClipboardCheck className="text-white" size={24} />,
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA7S9puUpbrd5nbl7WJI22rQJRWLRAZP-0_xCRItvphPi7vChzand916ikRcVzWuIvhTF0oWH2max2vBrSjARS-21SbSPkybRBBxhldsCzFqkXafRR9_3YKXq3crU65gTdPddT-dlVICHhCxQ74milYnUp4XnkigHT-PyZeh0LegucLgdsnOt4WJcKwuuzHHhh0tD13m9l2McHVwFk6Up63caetdcrWkMkoET4LgHsJBOsEQgyiGB_wwHze4hoZ-f0_InLctNuQ5nie'
+      img: 'https://i.ibb.co.com/bg0sXZ95/Chat-GPT-Image-Mar-28-2026-03-36-52-PM-1.png'
     },
     {
-      title: 'Payment Agent',
-      desc: 'Polite, persistent outbound reminders that recover revenue.',
-      tags: ['Finance', 'Telecom'],
+      title: 'Follow Up Agent',
+      desc: 'Automatically reaches out to leads, gathers feedback, and nurtures relationships.',
+      tags: ['Sales', 'Real Estate'],
       voice: 'David (US)',
       color: 'red',
       hex: '#EF4444',
       icon: <CreditCard className="text-white" size={24} />,
-      img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA11isOdOs3vAiFyqYzbEEa5eqs1pyxYpwlfk7vs5gOKfv6LKwRo-KTOEr1BB40Z0tORHshjwF85AbB4--gg7iT-NeEf2tS0UpcAqQp4REKgz06wVrozfvzWtkZZ6L44J5LCi7Mywzgc11yyzfCPGK4muyDRfNrGETob3CsXgAYTU-lDc2oPtrtDqFI7xa5CGJFbWIWdMuQjntAKqL4tS0TtFDrLrCNyvOo19ILweRls9kj4m-Sc_cyLguZElTB2OJrWeZ6dPcfREyP'
+      img: 'https://i.ibb.co.com/VWtGGqbc/Chat-GPT-Image-Mar-28-2026-03-39-25-PM-1.png'
     }
   ];
 
@@ -64,10 +64,10 @@ export default function Templates() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {templates.map((tpl, i) => (
-            <div key={i} className={`group agent-card relative rounded-3xl overflow-hidden border border-[var(--border-subtle)] h-[420px] cursor-pointer card-${tpl.title.toLowerCase().split(' ')[0]}`}>
+            <div key={i} className={`group agent-card relative rounded-3xl overflow-hidden border border-[var(--border-subtle)] h-[440px] cursor-pointer card-${tpl.title.toLowerCase().split(' ')[0]}`}>
               <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ backgroundColor: `${tpl.hex}05` }}></div>
-              <div className="h-[240px] w-full relative overflow-hidden bg-[#151518]">
-                <img alt={tpl.title} className="agent-img w-full h-full object-cover object-top" src={tpl.img} />
+              <div className="h-[260px] w-full relative overflow-hidden bg-[#151518]">
+                <img alt={tpl.title} className="agent-img w-full h-full object-cover object-center" src={tpl.img} loading="lazy" decoding="async" />
                 <div className="agent-overlay absolute inset-0"></div>
                 <div className="absolute top-4 right-4 bg-black/40 backdrop-blur-md border border-white/10 rounded-full px-3 py-1 flex items-center gap-1.5">
                   <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: tpl.hex }}></div>
