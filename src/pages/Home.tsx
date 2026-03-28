@@ -4,6 +4,7 @@ import DemoSection from '../components/DemoSection';
 import PoweredBy from '../components/PoweredBy';
 import GlobalReach from '../components/GlobalReach';
 import Templates from '../components/Templates';
+import HowItWorks from '../components/HowItWorks';
 import Architecture from '../components/Architecture';
 import Pricing from '../components/Pricing';
 import CTA from '../components/CTA';
@@ -19,6 +20,7 @@ export default function Home() {
         <PoweredBy />
         <GlobalReach />
         <Templates />
+        <HowItWorks />
         <Architecture />
         <Pricing />
         <CTA />
