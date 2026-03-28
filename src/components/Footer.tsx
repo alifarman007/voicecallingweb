@@ -1,4 +1,5 @@
 import { AudioLines } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -22,27 +23,27 @@ export default function Footer() {
         <div>
           <h4 className="text-white font-medium mb-4 text-sm font-cabinet">Product</h4>
           <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
-            <li className="hover:text-white cursor-pointer transition-colors">Features</li>
-            <li className="hover:text-white cursor-pointer transition-colors">Templates</li>
-            <li className="hover:text-white cursor-pointer transition-colors">Pricing</li>
-            <li className="hover:text-white cursor-pointer transition-colors">API Docs</li>
+            <li><Link to="/contact" className="hover:text-white transition-colors block">Features</Link></li>
+            <li><Link to="/contact" className="hover:text-white transition-colors block">Templates</Link></li>
+            <li><Link to="/contact" className="hover:text-white transition-colors block">Pricing</Link></li>
+            <li><Link to="/contact" className="hover:text-white transition-colors block">API Docs</Link></li>
           </ul>
         </div>
         <div>
           <h4 className="text-white font-medium mb-4 text-sm font-cabinet">Company</h4>
           <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
-            <li className="hover:text-white cursor-pointer transition-colors">About</li>
-            <li className="hover:text-white cursor-pointer transition-colors">Blog</li>
-            <li className="hover:text-white cursor-pointer transition-colors">Careers</li>
-            <li className="hover:text-white cursor-pointer transition-colors">Contact</li>
+            <li><Link to="/contact" className="hover:text-white transition-colors block">About</Link></li>
+            <li><Link to="/contact" className="hover:text-white transition-colors block">Blog</Link></li>
+            <li><Link to="/contact" className="hover:text-white transition-colors block">Careers</Link></li>
+            <li><Link to="/contact" className="hover:text-white transition-colors block">Contact</Link></li>
           </ul>
         </div>
         <div>
           <h4 className="text-white font-medium mb-4 text-sm font-cabinet">Legal</h4>
           <ul className="space-y-2 text-sm text-[var(--text-secondary)]">
-            <li className="hover:text-white cursor-pointer transition-colors">Privacy Policy</li>
-            <li className="hover:text-white cursor-pointer transition-colors">Terms of Service</li>
-            <li className="hover:text-white cursor-pointer transition-colors">Security</li>
+            <li><Link to="/contact" className="hover:text-white transition-colors block">Privacy Policy</Link></li>
+            <li><Link to="/contact" className="hover:text-white transition-colors block">Terms of Service</Link></li>
+            <li><Link to="/contact" className="hover:text-white transition-colors block">Security</Link></li>
           </ul>
         </div>
       </div>

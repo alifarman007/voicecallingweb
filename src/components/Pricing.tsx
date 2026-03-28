@@ -1,4 +1,5 @@
 import { Check, CheckCircle2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Pricing() {
   return (
@@ -38,9 +39,9 @@ export default function Pricing() {
                 </li>
               ))}
             </ul>
-            <button className="w-full py-3 px-4 rounded-lg border border-[var(--border-active)] text-[var(--text-primary)] font-medium text-sm hover:border-[var(--accent-primary)] hover:text-white hover:shadow-[0_0_15px_rgba(108,92,231,0.2)] transition-all duration-300">
+            <Link to="/contact" className="block text-center w-full py-3 px-4 rounded-lg border border-[var(--border-active)] text-[var(--text-primary)] font-medium text-sm hover:border-[var(--accent-primary)] hover:text-white hover:shadow-[0_0_15px_rgba(108,92,231,0.2)] transition-all duration-300">
               Start Building Free
-            </button>
+            </Link>
           </div>
           
           <div className="relative bg-[var(--bg-secondary)] border border-[var(--accent-primary)]/40 rounded-2xl p-8 shadow-[0_0_40px_rgba(108,92,231,0.15)] transform md:-translate-y-4">
@@ -68,9 +69,9 @@ export default function Pricing() {
                 </li>
               ))}
             </ul>
-            <button className="w-full py-3 px-4 rounded-lg bg-[var(--accent-primary)] text-white font-semibold text-sm hover:bg-[var(--accent-glow)] hover:shadow-[0_0_25px_rgba(108,92,231,0.5)] transition-all duration-300 transform hover:scale-[1.02]">
+            <Link to="/contact" className="block text-center w-full py-3 px-4 rounded-lg bg-[var(--accent-primary)] text-white font-semibold text-sm hover:bg-[var(--accent-glow)] hover:shadow-[0_0_25px_rgba(108,92,231,0.5)] transition-all duration-300 transform hover:scale-[1.02]">
               Get Started →
-            </button>
+            </Link>
           </div>
           
           <div className="group relative bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-2xl p-8 hover:border-[var(--border-active)] transition-all duration-300 hover:-translate-y-1">
@@ -93,9 +94,9 @@ export default function Pricing() {
                 </li>
               ))}
             </ul>
-            <button className="w-full py-3 px-4 rounded-lg border border-[var(--border-active)] text-[var(--text-primary)] font-medium text-sm hover:border-[var(--accent-primary)] hover:text-white hover:shadow-[0_0_15px_rgba(108,92,231,0.2)] transition-all duration-300">
+            <Link to="/contact" className="block text-center w-full py-3 px-4 rounded-lg border border-[var(--border-active)] text-[var(--text-primary)] font-medium text-sm hover:border-[var(--accent-primary)] hover:text-white hover:shadow-[0_0_15px_rgba(108,92,231,0.2)] transition-all duration-300">
               Talk to Sales
-            </button>
+            </Link>
           </div>
         </div>
       </div>
