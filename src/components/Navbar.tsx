@@ -9,7 +9,7 @@ export default function Navbar() {
           <div className="w-6 h-6 flex items-center justify-center text-[var(--accent-primary)] group-hover:scale-110 transition-transform duration-300">
             <AudioLines size={24} />
           </div>
-          <span className="font-cabinet font-bold text-white text-lg tracking-wide">VOICE AI</span>
+          <span className="font-cabinet font-bold text-white text-lg tracking-wide">KOTHA AI</span>
         </a>
         <div className="hidden md:flex items-center gap-8">
           {[

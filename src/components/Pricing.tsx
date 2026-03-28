@@ -31,7 +31,7 @@ export default function Pricing() {
               <p className="text-sm text-[var(--text-secondary)] mt-2">Free API credits to build & test</p>
             </div>
             <ul className="space-y-4 mb-8">
-              {['50 free minutes included', 'Access to all AI engines', '1 phone number', 'Community support'].map((item, i) => (
+              {['10 free minutes included', 'Access to all AI engines', '1 phone number', 'Community support'].map((item, i) => (
                 <li key={i} className="flex items-start gap-3 text-[var(--text-secondary)] text-sm">
                   <Check className="text-[var(--accent-green)] mt-0.5" size={18} />
                   <span>{item}</span>
@@ -50,8 +50,7 @@ export default function Pricing() {
             <div className="mb-8">
               <h3 className="text-2xl font-semibold text-[var(--text-primary)] mb-2 font-cabinet">Pay-as-you-Go</h3>
               <div className="flex items-baseline gap-1">
-                <span className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-white to-[var(--accent-glow)]">$0.08</span>
-                <span className="text-[var(--text-secondary)]">/min</span>
+                <span className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-white to-[var(--accent-glow)]">Variable</span>
               </div>
               <p className="text-sm text-[var(--text-secondary)] mt-2">STT + LLM + TTS bundled</p>
             </div>
@@ -85,7 +84,7 @@ export default function Pricing() {
                 <CheckCircle2 className="text-[var(--text-tertiary)] mt-0.5" size={18} />
                 <span>Everything in Pay-as-you-Go</span>
               </li>
-              {['Dedicated servers (GPU)', 'Custom voice cloning', 'SLA guarantee (99.9% uptime)', 'Dedicated account manager'].map((item, i) => (
+              {['Dedicated servers (GPU)', 'SLA guarantee (99.9% uptime)', 'Dedicated account manager'].map((item, i) => (
                 <li key={i} className="flex items-start gap-3 text-[var(--text-secondary)] text-sm">
                   <Check className="text-[var(--text-tertiary)] mt-0.5" size={18} />
                   <span>{item}</span>
