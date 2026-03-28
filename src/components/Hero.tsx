@@ -1,5 +1,6 @@
-import { Headphones, Phone, PhoneCall, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import LiveTest from './LiveTest';
 
 export default function Hero() {
   return (
@@ -32,27 +33,8 @@ export default function Hero() {
             Talk to Sales
           </Link>
         </div>
-        <div className="w-full max-w-[480px] bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-2xl p-6 card-glow animate-fadeInUp relative group" style={{ animationDelay: '0.7s' }}>
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[rgba(108,92,231,0.1)] to-[rgba(34,211,238,0.1)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
-          <div className="relative z-10 flex flex-col items-center">
-            <label className="text-[14px] font-medium text-[var(--text-secondary)] mb-4 flex items-center gap-2">
-              <Headphones className="text-[var(--accent-primary)]" size={18} />
-              Don't believe us? Call our AI right now.
-            </label>
-            <div className="w-full flex items-center gap-2">
-              <div className="relative flex-1">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-tertiary)]" size={20} />
-                <input className="w-full bg-[var(--bg-tertiary)] text-white border border-[var(--border-subtle)] rounded-lg py-3 pl-10 pr-4 text-sm focus:outline-none focus:border-[var(--accent-primary)] focus:ring-1 focus:ring-[var(--accent-primary)] placeholder-[var(--text-tertiary)] transition-all" placeholder="Enter your phone number" type="tel" />
-              </div>
-              <button className="bg-[var(--accent-primary)] hover:bg-[#7d6ef0] text-white font-bold px-4 py-3 rounded-lg text-sm transition-colors flex items-center gap-1.5 whitespace-nowrap shadow-lg shadow-[rgba(108,92,231,0.2)]">
-                Call Me
-                <PhoneCall size={16} />
-              </button>
-            </div>
-            <p className="text-[12px] text-[var(--text-tertiary)] mt-3">
-              Free. No signup required. Takes 15 seconds.
-            </p>
-          </div>
+        <div className="w-full max-w-[480px] animate-fadeInUp" style={{ animationDelay: '0.7s' }}>
+          <LiveTest />
         </div>
       </div>
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce opacity-50">

@@ -1,5 +1,7 @@
 {
   "name": "Voice AI Platform",
   "description": "A landing page for a Voice AI platform featuring templates, architecture, and pricing.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [
+    "microphone"
+  ]
 }
