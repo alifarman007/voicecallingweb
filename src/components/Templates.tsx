@@ -101,11 +101,12 @@ export default function Templates() {
           ))}
         </div>
         
-        <div className="mt-12 text-center">
-          <a className="inline-flex items-center gap-2 text-[var(--accent-primary)] font-semibold text-sm hover:underline group" href="#">
-            Explore All Templates 
-            <ArrowRight className="transition-transform group-hover:translate-x-1" size={18} />
-          </a>
+        <div className="mt-16 text-center">
+          <div className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm">
+            <p className="text-gray-300 font-medium text-sm md:text-base">
+              Connect with us to discover all agents and custom solutions.
+            </p>
+          </div>
         </div>
       </div>
     </section>
