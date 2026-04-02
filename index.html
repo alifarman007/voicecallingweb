@@ -10,13 +10,32 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="KOTHA AI — Your Voice, Automated | AI Voice Agents in 50+ Languages" />
     <meta property="og:description" content="Build, deploy, and scale hyper-realistic AI voice agents in 50+ languages. Automate your customer service, sales, and operations with KOTHA AI." />
-    <meta property="og:image" content="/og.jpg" />
+    <meta property="og:image" id="og-image" content="/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:title" content="KOTHA AI — Your Voice, Automated | AI Voice Agents in 50+ Languages" />
     <meta property="twitter:description" content="Build, deploy, and scale hyper-realistic AI voice agents in 50+ languages. Automate your customer service, sales, and operations with KOTHA AI." />
-    <meta property="twitter:image" content="/og.jpg" />
+    <meta property="twitter:image" id="twitter-image" content="/og.jpg" />
+
+    <!-- Dynamic OG URL Script -->
+    <script>
+      (function() {
+        var absoluteImageUrl = window.location.origin + '/og.jpg';
+        var ogImage = document.getElementById('og-image');
+        var twitterImage = document.getElementById('twitter-image');
+        
+        if (ogImage) ogImage.setAttribute('content', absoluteImageUrl);
+        if (twitterImage) twitterImage.setAttribute('content', absoluteImageUrl);
+
+        var ogUrl = document.createElement('meta');
+        ogUrl.setAttribute('property', 'og:url');
+        ogUrl.setAttribute('content', window.location.href);
+        document.head.appendChild(ogUrl);
+      })();
+    </script>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236C5CE7' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M2 10v3'/><path d='M6 6v11'/><path d='M10 3v18'/><path d='M14 8v7'/><path d='M18 5v13'/><path d='M22 10v3'/></svg>" />
