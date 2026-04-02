@@ -8,6 +8,7 @@ import AutomatedActionEngine from '../components/AutomatedActionEngine';
 import IntelligentVoiceCore from '../components/IntelligentVoiceCore';
 import HowItWorks from '../components/HowItWorks';
 import Architecture from '../components/Architecture';
+import NativeS2S from '../components/NativeS2S';
 import Pricing from '../components/Pricing';
 import CTA from '../components/CTA';
 import Footer from '../components/Footer';
@@ -56,6 +57,7 @@ export default function Home() {
 
         <HowItWorks />
         <Architecture />
+        <NativeS2S />
         <Pricing />
         <CTA />
       </main>
