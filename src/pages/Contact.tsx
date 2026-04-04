@@ -65,25 +65,6 @@ export default function Contact() {
     }
   };
 
-  const contacts = [
-    {
-      name: 'Alif Arman',
-      role: 'Managing Director',
-      email: 'alifarman.3027@gmail.com',
-      phone: '+8801671300377',
-      whatsapp: '+8801671300377',
-      image: 'https://i.ibb.co.com/1GcjWXVQ/Gemini-Generated-Image-32zx9932zx9932zx.png',
-    },
-    {
-      name: 'Salman MD Abdullah',
-      role: 'Managing Director',
-      email: '',
-      phone: '+8801710589662',
-      whatsapp: '+8801710589662',
-      image: 'https://i.ibb.co.com/R4Vs64Y8/Gemini-Generated-Image-loudc1loudc1loud.png',
-    }
-  ];
-
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] font-satoshi relative overflow-hidden">
       {/* Background Glow */}
@@ -104,10 +85,10 @@ export default function Contact() {
             Tell us about your business and we'll set up the perfect voice AI solution — or reach out directly to our team.
           </p>
           <button 
-            onClick={() => document.getElementById('team')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => document.getElementById('contact-methods')?.scrollIntoView({ behavior: 'smooth' })}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[var(--bg-tertiary)] border border-[var(--border-subtle)] hover:border-[var(--accent-cyan)] text-[var(--text-secondary)] hover:text-white transition-all text-sm font-medium group"
           >
-            Meet our Managing Directors 
+            See direct contact options
             <ArrowDown size={16} className="group-hover:translate-y-1 transition-transform" />
           </button>
         </div>
@@ -298,43 +279,23 @@ export default function Contact() {
         </div>
 
         {/* Direct Contact Section */}
-        <div id="team" className="animate-fadeInUp scroll-mt-12" style={{ animationDelay: '0.3s' }}>
+        <div id="contact-methods" className="animate-fadeInUp scroll-mt-12" style={{ animationDelay: '0.3s' }}>
           <div className="h-px w-full bg-[var(--border-subtle)] mb-12"></div>
           
           <div className="text-center mb-10">
             <h3 className="text-2xl font-bold font-cabinet mb-2">Prefer a direct conversation?</h3>
-            <p className="text-[var(--text-secondary)] text-sm">Our Managing Directors are available for a personal consultation.</p>
+            <p className="text-[var(--text-secondary)] text-sm">Reach out to our team instantly via WhatsApp or Email.</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {contacts.map((contact, index) => (
-              <div key={index} className="bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-2xl p-8 flex flex-col items-center text-center hover:border-[var(--border-active)] transition-colors">
-                <img 
-                  src={contact.image} 
-                  alt={contact.name} 
-                  className="w-28 h-28 rounded-full object-cover border-4 border-[var(--bg-tertiary)] mb-4"
-                />
-                <h4 className="font-bold text-xl font-cabinet">{contact.name}</h4>
-                <p className="text-sm text-[var(--accent-primary)] font-medium uppercase tracking-wider mb-6">{contact.role}</p>
-                
-                <div className="w-full space-y-3">
-                  {contact.email && (
-                    <a href={`mailto:${contact.email}`} className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-subtle)] hover:border-[var(--accent-primary)] hover:text-white text-[var(--text-secondary)] transition-all group/btn">
-                      <Mail size={18} className="group-hover/btn:text-[var(--accent-primary)] transition-colors" />
-                      <span className="font-medium text-sm">{contact.email}</span>
-                    </a>
-                  )}
-                  <a href={`tel:${contact.phone}`} className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-subtle)] hover:border-[var(--accent-cyan)] hover:text-white text-[var(--text-secondary)] transition-all group/btn">
-                    <Phone size={18} className="group-hover/btn:text-[var(--accent-cyan)] transition-colors" />
-                    <span className="font-medium text-sm">{contact.phone}</span>
-                  </a>
-                  <a href={`https://wa.me/${contact.whatsapp.replace('+', '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full py-3 px-4 rounded-xl bg-[rgba(16,185,129,0.1)] border border-[rgba(16,185,129,0.2)] hover:bg-[rgba(16,185,129,0.2)] hover:border-[rgba(16,185,129,0.4)] text-[var(--text-primary)] transition-all group/btn">
-                    <MessageCircle size={18} className="text-[var(--accent-green)]" />
-                    <span className="font-medium text-sm">Chat on WhatsApp</span>
-                  </a>
-                </div>
-              </div>
-            ))}
+          <div className="max-w-2xl mx-auto bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-2xl p-8 flex flex-col md:flex-row items-center justify-center gap-6">
+            <a href="https://wa.me/8801671300377" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-3 w-full md:w-auto py-4 px-8 rounded-xl bg-[rgba(16,185,129,0.1)] border border-[rgba(16,185,129,0.2)] hover:bg-[rgba(16,185,129,0.2)] hover:border-[rgba(16,185,129,0.4)] text-[var(--text-primary)] transition-all group/btn">
+              <MessageCircle size={20} className="text-[var(--accent-green)]" />
+              <span className="font-medium">Chat on WhatsApp</span>
+            </a>
+            <a href="mailto:hello@kotha.ai" className="flex items-center justify-center gap-3 w-full md:w-auto py-4 px-8 rounded-xl bg-[var(--bg-tertiary)] border border-[var(--border-subtle)] hover:border-[var(--accent-primary)] hover:text-white text-[var(--text-secondary)] transition-all group/btn">
+              <Mail size={20} className="group-hover/btn:text-[var(--accent-primary)] transition-colors" />
+              <span className="font-medium">Email Support</span>
+            </a>
           </div>
         </div>
 
