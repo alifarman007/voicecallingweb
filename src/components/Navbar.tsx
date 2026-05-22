@@ -1,4 +1,4 @@
-import { AudioLines, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
@@ -8,14 +8,18 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 h-16 border-b border-[var(--border-subtle)] glass-nav z-40 flex items-center justify-center">
       <div className="w-full max-w-[1200px] px-6 flex items-center justify-between">
-        <a className="flex items-center gap-2 group" href="#" aria-label="KOTHA AI Home">
-          <div className="w-6 h-6 flex items-center justify-center text-[var(--accent-primary)] group-hover:scale-110 transition-transform duration-300">
-            <AudioLines size={24} aria-hidden="true" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-cabinet font-bold text-white text-lg tracking-wide leading-none">KOTHA AI</span>
-            <span className="text-[9px] text-[var(--text-tertiary)] uppercase tracking-[0.2em] mt-1 font-medium">Your Voice, Automated</span>
-          </div>
+        <a className="flex items-center gap-2.5 group" href="#" aria-label="KOTHA AI Home">
+          <img
+            src="/logo-symbol.svg"
+            alt=""
+            aria-hidden="true"
+            className="w-8 h-8 group-hover:scale-110 transition-transform duration-300"
+          />
+          <img
+            src="/kotha_ai_logo_wordmark_white.svg"
+            alt="KOTHA AI"
+            className="h-5 w-auto"
+          />
         </a>
         
         {/* Desktop Navigation */}

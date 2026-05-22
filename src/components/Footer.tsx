@@ -1,4 +1,3 @@
-import { AudioLines } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Footer() {
@@ -6,8 +5,8 @@ export default function Footer() {
     <footer className="border-t border-[var(--border-subtle)] bg-[var(--bg-secondary)] py-12 px-6">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-4">
         <div className="col-span-1">
-          <div className="flex items-center gap-2 mb-4">
-            <AudioLines className="text-[var(--accent-primary)]" size={24} />
+          <div className="flex items-center gap-2.5 mb-4">
+            <img src="/logo-symbol.svg" alt="" aria-hidden="true" className="w-8 h-8" />
             <div className="flex flex-col">
               <span className="font-bold text-xl text-white font-cabinet leading-none">KOTHA AI</span>
               <span className="text-[9px] text-[var(--text-tertiary)] uppercase tracking-[0.2em] mt-1 font-medium">Your Voice, Automated</span>
