@@ -24,7 +24,7 @@ export default function Hero() {
           The most flexible voice AI platform. Build, deploy, and scale inbound & outbound agents in minutes. Fluent in Many Languages. Zero vendor lock-in.
         </p>
         <div className="flex flex-col sm:flex-row items-center gap-4 mb-14 animate-fadeInUp" style={{ animationDelay: '0.5s' }}>
-          <Link to="/contact" className="group relative bg-[var(--accent-primary)] text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(108,92,231,0.4)] flex items-center gap-2">
+          <Link to="/contact" className="group relative bg-blue-600 hover:bg-blue-500 text-white font-bold text-lg px-8 py-4 rounded-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(37,99,235,0.4)] flex items-center gap-2">
             Build Your Agent
             <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
           </Link>
