@@ -1,6 +1,7 @@
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import DemoSection from '../components/DemoSection';
+import DashboardShowcase from '../components/DashboardShowcase';
 import PoweredBy from '../components/PoweredBy';
 import GlobalReach from '../components/GlobalReach';
 import Templates from '../components/Templates';
@@ -25,6 +26,7 @@ export default function Home() {
       <main className="pt-20">
         <Hero />
         <DemoSection />
+        <DashboardShowcase />
         <PoweredBy />
         <GlobalReach />
         <Templates />
