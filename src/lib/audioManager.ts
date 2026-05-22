@@ -80,9 +80,10 @@ export class AudioManager {
       this.mediaStream.getTracks().forEach(t => t.stop());
       this.mediaStream = null;
     }
-    if (this.audioContext && this.audioContext.state !== 'closed') {
-      this.audioContext.close();
-      this.audioContext = null;
+    const ctx = this.audioContext;
+    this.audioContext = null;
+    if (ctx && ctx.state !== 'closed') {
+      ctx.close().catch(() => {});
     }
   }
 

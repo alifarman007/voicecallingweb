@@ -27,6 +27,23 @@ CRITICAL INSTRUCTION: This is a free demo. You are only allowed to answer the us
 
 Never reveal that you are the Gemini API or an AI model created by Google.`;
 
+// Resolve the Gemini API key.
+// AI Studio injects `process.env.API_KEY` / `GEMINI_API_KEY` at runtime;
+// for local Vite dev we fall back to `VITE_*` (which is bundled into the client).
+// The `typeof process` guard exists because Vite does not polyfill `process`
+// for client code by default — outside AI Studio that branch is intentionally dead.
+function resolveGeminiApiKey(): string {
+  try {
+    if (typeof process !== 'undefined' && process.env) {
+      const k = process.env.API_KEY || process.env.GEMINI_API_KEY;
+      if (k) return k;
+    }
+  } catch {
+    /* process is not defined in plain Vite builds */
+  }
+  return import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY || '';
+}
+
 export default function LiveTest() {
   const [language, setLanguage] = useState('বাংলা (Bengali)');
   const [callState, setCallState] = useState<'idle' | 'connecting' | 'listening' | 'speaking' | 'ending'>('idle');
@@ -71,20 +88,7 @@ export default function LiveTest() {
     setCallState('connecting');
     setDuration(0);
 
-    // Safely access process.env which is injected by AI Studio at runtime
-    let apiKey = '';
-    try {
-      if (typeof process !== 'undefined' && process.env) {
-        apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY || '';
-      }
-    } catch (e) {
-      // Ignore process undefined errors
-    }
-    
-    // Use environment variable only - never hardcode API keys
-    if (!apiKey) {
-      apiKey = import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY || '';
-    }
+    const apiKey = resolveGeminiApiKey();
 
     if (!apiKey || apiKey === 'MY_GEMINI_API_KEY') {
       setError('API key not configured. Please set VITE_GEMINI_API_KEY in your environment variables.');

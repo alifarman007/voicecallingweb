@@ -64,7 +64,11 @@ export default function Templates() {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {templates.map((tpl, i) => (
-            <div key={i} className={`group agent-card relative rounded-3xl overflow-hidden border border-[var(--border-subtle)] h-[440px] cursor-pointer card-${tpl.title.toLowerCase().split(' ')[0]}`}>
+            <div
+              key={i}
+              className="group agent-card relative rounded-3xl overflow-hidden border border-[var(--border-subtle)] h-[440px] cursor-pointer"
+              style={{ '--card-hover-color': tpl.hex } as any}
+            >
               <div className="absolute inset-0 z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ backgroundColor: `${tpl.hex}05` }}></div>
               <div className="h-[260px] w-full relative overflow-hidden bg-[#151518]">
                 <img alt={`Portrait of ${tpl.title} AI agent`} className="agent-img w-full h-full object-cover object-center" src={tpl.img} loading="lazy" decoding="async" />
@@ -83,7 +87,7 @@ export default function Templates() {
                 <div className="w-12 h-12 rounded-xl flex items-center justify-center shadow-lg mb-4 border group-hover:scale-110 transition-transform duration-300" style={{ backgroundColor: tpl.hex, borderColor: `${tpl.hex}44`, boxShadow: `0 10px 15px -3px ${tpl.hex}33` }}>
                   {tpl.icon}
                 </div>
-                <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2 transition-colors font-cabinet" style={{ color: `var(--text-primary)` }} onMouseEnter={(e) => e.currentTarget.style.color = tpl.hex} onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-primary)'}>{tpl.title}</h3>
+                <h3 className="text-xl font-bold text-[var(--text-primary)] group-hover:text-[var(--card-hover-color)] mb-2 transition-colors font-cabinet">{tpl.title}</h3>
                 <p className="text-sm text-[var(--text-secondary)] mb-4 leading-relaxed line-clamp-2">
                   {tpl.desc}
                 </p>

@@ -41,7 +41,7 @@ export default function Home() {
           </button>
         </div>
 
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           {showIntelligentCore && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}

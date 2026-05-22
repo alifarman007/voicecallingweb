@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { Mail, Phone, MessageCircle, ClipboardCheck, Monitor, Rocket, Globe, Zap, ShieldCheck, CheckCircle2, Loader2, ArrowDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
@@ -25,7 +25,8 @@ export default function Contact() {
                   formData.company.trim() !== '' && 
                   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e?: FormEvent) => {
+    e?.preventDefault();
     if (!isValid) return;
     
     setIsSubmitting(true);
@@ -108,7 +109,7 @@ export default function Contact() {
                   <p className="text-[var(--text-secondary)]">Thanks! We'll be in touch within 24 hours.</p>
                 </div>
               ) : (
-                <div className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Full Name <span className="text-[var(--accent-primary)]">*</span></label>
@@ -192,8 +193,8 @@ export default function Contact() {
                     </div>
                   )}
 
-                  <button 
-                    onClick={handleSubmit}
+                  <button
+                    type="submit"
                     disabled={!isValid || isSubmitting}
                     className="w-full bg-[var(--accent-primary)] text-white py-4 rounded-xl font-medium hover:shadow-[0_0_20px_rgba(108,92,231,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none mt-4 flex items-center justify-center gap-2"
                   >
@@ -206,7 +207,7 @@ export default function Contact() {
                       "Get Your Free Consultation →"
                     )}
                   </button>
-                </div>
+                </form>
               )}
             </div>
           </div>

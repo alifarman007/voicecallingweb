@@ -38,7 +38,6 @@ export default function Navbar() {
         </div>
         
         <div className="hidden md:flex items-center gap-4">
-          <a className="text-[var(--text-secondary)] font-medium text-[15px] hover:text-white transition-colors" href="#">Log In</a>
           <Link to="/contact" className="bg-[var(--accent-primary)] hover:bg-[#7d6ef0] text-white font-bold text-[15px] px-5 py-2.5 rounded-lg transition-all duration-300 btn-glow">
             Get Started Free
           </Link>
@@ -74,9 +73,8 @@ export default function Navbar() {
             </a>
           ))}
           <div className="flex flex-col gap-3 mt-2">
-            <a className="text-center text-[var(--text-secondary)] font-medium text-lg hover:text-white transition-colors py-2" href="#">Log In</a>
-            <Link 
-              to="/contact" 
+            <Link
+              to="/contact"
               className="text-center bg-[var(--accent-primary)] hover:bg-[#7d6ef0] text-white font-bold text-lg px-5 py-3 rounded-lg transition-all duration-300"
               onClick={() => setIsMobileMenuOpen(false)}
             >
