@@ -46,7 +46,7 @@ export default function Templates() {
 
   return (
     <section id="templates" className="py-20 lg:py-32 relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]"></div>
+      <div className="absolute inset-0 pointer-events-none noise-overlay opacity-[0.03]"></div>
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[var(--accent-primary)] rounded-full blur-[120px] opacity-[0.04]"></div>
       <div className="max-w-[1200px] mx-auto px-6 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">

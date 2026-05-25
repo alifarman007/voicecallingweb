@@ -92,33 +92,34 @@ export class GeminiLiveClient {
   }
 
   sendAudio(base64PcmChunk: string) {
-    if (this.session && this.isConnected) {
-      try {
-        this.session.sendRealtimeInput({
-          audio: {
-            mimeType: "audio/pcm;rate=16000",
-            data: base64PcmChunk
-          }
-        });
-      } catch (error) {
-        console.error('Error sending audio', error);
-      }
+    if (!this.session || !this.isConnected) return;
+    try {
+      this.session.sendRealtimeInput({
+        audio: {
+          mimeType: "audio/pcm;rate=16000",
+          data: base64PcmChunk
+        }
+      });
+    } catch {
+      // Expected during teardown: an in-flight audio frame may race with the
+      // WS transitioning to CLOSING. Swallow silently — the next isConnected
+      // check will gate further sends.
     }
   }
 
   disconnect() {
-    if (this.session) {
-      try {
-        // The SDK doesn't have a direct close method on the session object yet in some versions,
-        // but we can try to close it or just let it garbage collect if it doesn't.
-        if (typeof this.session.close === 'function') {
-          this.session.close();
-        }
-      } catch (e) {
-        console.error('Error disconnecting', e);
+    if (!this.session) return;
+    // Flip state BEFORE close() so any in-flight sendAudio in the same tick
+    // skips early (otherwise the browser warns about sending on a CLOSING WS).
+    this.isConnected = false;
+    const session = this.session;
+    this.session = null;
+    try {
+      if (typeof session.close === 'function') {
+        session.close();
       }
-      this.session = null;
-      this.isConnected = false;
+    } catch (e) {
+      console.error('Error disconnecting', e);
     }
   }
 
