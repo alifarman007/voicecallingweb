@@ -1,7 +1,8 @@
 import { GoogleGenAI } from '@google/genai';
 
 const MODEL = 'gemini-3.1-flash-live-preview';
-const TOKEN_TTL_MS = 30 * 60 * 1000; // 30 minutes
+const TOKEN_TTL_MS = 30 * 60 * 1000; // 30 minutes — total token lifetime
+const NEW_SESSION_TTL_MS = 5 * 60 * 1000; // 5 min — window to start the WS
 
 export default async function handler(req: any, res: any) {
   if (req.method !== 'POST') {
@@ -23,13 +24,18 @@ export default async function handler(req: any, res: any) {
       apiKey,
       httpOptions: { apiVersion: 'v1alpha' },
     });
+    // Note: we intentionally do NOT set `liveConnectConstraints` here.
+    // Passing only `model` in the constraint (without a full LiveConnectConfig)
+    // causes Google to close the WS with a generic "Internal error encountered"
+    // (close code 1011), because the client's runtime config doesn't match an
+    // (implicitly-empty) constraint config. With `uses: 1` + short TTL the
+    // blast radius of a leaked token is already tiny.
+    const now = Date.now();
     const token = await ai.authTokens.create({
       config: {
         uses: 1,
-        expireTime: new Date(Date.now() + TOKEN_TTL_MS).toISOString(),
-        liveConnectConstraints: {
-          model: MODEL,
-        },
+        expireTime: new Date(now + TOKEN_TTL_MS).toISOString(),
+        newSessionExpireTime: new Date(now + NEW_SESSION_TTL_MS).toISOString(),
       },
     });
 

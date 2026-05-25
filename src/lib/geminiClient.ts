@@ -28,9 +28,13 @@ export class GeminiLiveClient {
         model: this.model,
         config: {
           responseModalities: [Modality.AUDIO],
-          // Voice config omitted as a diagnostic: Gemini 3.1 may not support
-          // the "Kore" voice from 2.x. Let Google pick the default voice and
-          // we will re-add a specific voice once we confirm 3.1's voice list.
+          speechConfig: {
+            voiceConfig: {
+              prebuiltVoiceConfig: {
+                voiceName: "Kore"
+              }
+            }
+          },
           systemInstruction: {
             parts: [{ text: systemPrompt }]
           }
