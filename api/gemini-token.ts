@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 
-const MODEL = 'gemini-3.1-flash-live';
+const MODEL = 'gemini-3.1-flash-live-preview';
 const TOKEN_TTL_MS = 30 * 60 * 1000; // 30 minutes
 
 export default async function handler(req: any, res: any) {
