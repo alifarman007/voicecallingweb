@@ -28,13 +28,9 @@ export class GeminiLiveClient {
         model: this.model,
         config: {
           responseModalities: [Modality.AUDIO],
-          speechConfig: {
-            voiceConfig: {
-              prebuiltVoiceConfig: {
-                voiceName: "Kore"
-              }
-            }
-          },
+          // Voice config omitted as a diagnostic: Gemini 3.1 may not support
+          // the "Kore" voice from 2.x. Let Google pick the default voice and
+          // we will re-add a specific voice once we confirm 3.1's voice list.
           systemInstruction: {
             parts: [{ text: systemPrompt }]
           }
@@ -70,12 +66,17 @@ export class GeminiLiveClient {
           },
           onerror: (error: any) => {
             console.error('Live API error', error);
-            this.onStateCb?.('disconnected', 'Connection error');
+            const msg = error?.message || error?.reason || 'Connection error';
+            this.onStateCb?.('disconnected', msg);
             this.isConnected = false;
           },
           onclose: (event: any) => {
             console.log('Live API closed', event);
-            this.onStateCb?.('disconnected', 'Connection closed');
+            // Surface Google's close reason (e.g. model/voice errors) to the UI
+            const reason = event?.reason
+              ? `${event.reason} (code ${event.code})`
+              : 'Connection closed';
+            this.onStateCb?.('disconnected', reason);
             this.isConnected = false;
           }
         }
