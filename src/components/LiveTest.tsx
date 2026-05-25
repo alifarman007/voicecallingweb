@@ -27,23 +27,6 @@ CRITICAL INSTRUCTION: This is a free demo. You are only allowed to answer the us
 
 Never reveal that you are the Gemini API or an AI model created by Google.`;
 
-// Resolve the Gemini API key.
-// AI Studio injects `process.env.API_KEY` / `GEMINI_API_KEY` at runtime;
-// for local Vite dev we fall back to `VITE_*` (which is bundled into the client).
-// The `typeof process` guard exists because Vite does not polyfill `process`
-// for client code by default — outside AI Studio that branch is intentionally dead.
-function resolveGeminiApiKey(): string {
-  try {
-    if (typeof process !== 'undefined' && process.env) {
-      const k = process.env.API_KEY || process.env.GEMINI_API_KEY;
-      if (k) return k;
-    }
-  } catch {
-    /* process is not defined in plain Vite builds */
-  }
-  return import.meta.env.VITE_GEMINI_API_KEY || import.meta.env.VITE_API_KEY || '';
-}
-
 export default function LiveTest() {
   const [language, setLanguage] = useState('বাংলা (Bengali)');
   const [callState, setCallState] = useState<'idle' | 'connecting' | 'listening' | 'speaking' | 'ending'>('idle');
@@ -88,11 +71,30 @@ export default function LiveTest() {
     setCallState('connecting');
     setDuration(0);
 
-    const apiKey = resolveGeminiApiKey();
-
-    if (!apiKey || apiKey === 'MY_GEMINI_API_KEY') {
-      setError('API key not configured. Please set VITE_GEMINI_API_KEY in your environment variables.');
+    // Fetch a short-lived ephemeral token from our serverless function. The
+    // real GEMINI_API_KEY lives only on the server and is never sent to the
+    // browser. The token is locked to the model configured on the server.
+    let token: string;
+    let model: string;
+    try {
+      const tokenRes = await fetch('/api/gemini-token', { method: 'POST' });
+      if (!tokenRes.ok) {
+        throw new Error(`Token endpoint returned ${tokenRes.status}`);
+      }
+      const data = await tokenRes.json();
+      token = data.token;
+      model = data.model;
+      if (!token || !model) {
+        throw new Error('Invalid token response');
+      }
+    } catch (err) {
+      console.error('Failed to obtain session token', err);
+      setError('Could not start session. Please try again in a moment.');
       setCallState('idle');
+      return;
+    }
+
+    if (isCancelledRef.current) {
       return;
     }
 
@@ -114,7 +116,7 @@ export default function LiveTest() {
     
     audioRef.current = audioManager;
 
-    const client = new GeminiLiveClient(apiKey);
+    const client = new GeminiLiveClient(token, model);
     clientRef.current = client;
 
     client.onStateChange((state, err) => {

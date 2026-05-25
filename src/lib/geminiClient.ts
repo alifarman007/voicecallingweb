@@ -2,14 +2,21 @@ import { GoogleGenAI, LiveServerMessage, Modality } from "@google/genai";
 
 export class GeminiLiveClient {
   private ai: GoogleGenAI;
+  private model: string;
   private session: any = null;
   private onAudioCb: ((base64Pcm: string) => void) | null = null;
   private onStateCb: ((state: 'connecting' | 'connected' | 'speaking' | 'listening' | 'disconnected', error?: string) => void) | null = null;
   private onInterruptedCb: (() => void) | null = null;
   private isConnected: boolean = false;
 
-  constructor(apiKey: string) {
-    this.ai = new GoogleGenAI({ apiKey });
+  // `token` is a short-lived ephemeral token from /api/gemini-token, not the
+  // long-lived GEMINI_API_KEY. `apiVersion: 'v1alpha'` is required for tokens.
+  constructor(token: string, model: string) {
+    this.ai = new GoogleGenAI({
+      apiKey: token,
+      httpOptions: { apiVersion: 'v1alpha' },
+    });
+    this.model = model;
   }
 
   async connect(systemPrompt: string) {
@@ -18,7 +25,7 @@ export class GeminiLiveClient {
 
     try {
       this.session = await this.ai.live.connect({
-        model: "gemini-3.1-flash-live-preview",
+        model: this.model,
         config: {
           responseModalities: [Modality.AUDIO],
           speechConfig: {
