@@ -18,7 +18,11 @@ export default async function handler(req: any, res: any) {
   }
 
   try {
-    const ai = new GoogleGenAI({ apiKey });
+    // authTokens.create is a v1alpha-only endpoint; default v1 returns 404.
+    const ai = new GoogleGenAI({
+      apiKey,
+      httpOptions: { apiVersion: 'v1alpha' },
+    });
     const token = await ai.authTokens.create({
       config: {
         uses: 1,
