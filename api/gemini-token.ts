@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 
-const MODEL = 'gemini-3.1-flash-live-preview';
+const MODEL = 'gemini-3.1-flash-live';
 const TOKEN_TTL_MS = 30 * 60 * 1000; // 30 minutes
 
 export default async function handler(req: any, res: any) {
@@ -32,7 +32,13 @@ export default async function handler(req: any, res: any) {
     res.setHeader('Cache-Control', 'no-store');
     res.status(200).json({ token: token.name, model: MODEL });
   } catch (err: any) {
-    console.error('Token creation failed', err);
+    // Log structured fields so the full error survives Vercel's log table.
+    console.error('Token creation failed', JSON.stringify({
+      message: err?.message,
+      name: err?.name,
+      status: err?.status ?? err?.code,
+      details: err?.details ?? err?.cause,
+    }));
     res.status(500).json({ error: 'Failed to create session token' });
   }
 }
