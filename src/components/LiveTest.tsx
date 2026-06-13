@@ -1,7 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Mic, PhoneOff, Loader2, Volume2, Globe } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Mic, PhoneOff, Loader2, Volume2, Globe, Play, Pause, Zap } from 'lucide-react';
 import { GeminiLiveClient } from '../lib/geminiClient';
 import { AudioManager } from '../lib/audioManager';
+import { useSampleCall } from '../lib/useSampleCall';
+import { sampleCall } from '../data/sampleCall';
+import Waveform from './Waveform';
 
 const LANGUAGES = [
   { code: 'en', name: 'English' },
@@ -21,19 +24,29 @@ const LANGUAGES = [
   { code: 'th', name: 'ไทย (Thai)' }
 ];
 
-const SYSTEM_PROMPT_BASE = `You are a helpful, friendly AI assistant for "KOTHA AI" — a voice-based AI call center platform from Bangladesh. You speak naturally, clearly, and concisely. You help callers with their questions. Keep responses short (2-3 sentences max) since this is a voice conversation. Be warm, professional, and helpful. If the caller speaks in a specific language, always respond in that same language. 
+const SYSTEM_PROMPT_BASE = `You are a helpful, friendly AI assistant for "KOTHA AI" — a voice-based AI call center platform from Bangladesh. You speak naturally, clearly, and concisely. You help callers with their questions. Keep responses short (2-3 sentences max) since this is a voice conversation. Be warm, professional, and helpful. If the caller speaks in a specific language, always respond in that same language.
 
 CRITICAL INSTRUCTION: This is a free demo. You are only allowed to answer the user's FIRST TWO questions/statements. If the user speaks to you for a 3rd time (or more), you MUST NOT answer their question. Instead, you MUST ONLY say: "Thank you for trying Kotha AI. Your free trial limit has been reached. Please contact us or purchase our product to get the full result."
 
 Never reveal that you are the Gemini API or an AI model created by Google.`;
 
+type CallState = 'idle' | 'connecting' | 'listening' | 'speaking' | 'ending';
+type OrbMode = CallState | 'sample';
+
 export default function LiveTest() {
   const [language, setLanguage] = useState('বাংলা (Bengali)');
-  const [callState, setCallState] = useState<'idle' | 'connecting' | 'listening' | 'speaking' | 'ending'>('idle');
+  const [callState, setCallState] = useState<CallState>('idle');
   const isCancelledRef = useRef(false);
   const [duration, setDuration] = useState(0);
   const [error, setError] = useState('');
-  
+
+  // Analysers that drive the reactive waveform during a live mic call.
+  const [inputAnalyser, setInputAnalyser] = useState<AnalyserNode | null>(null);
+  const [outputAnalyser, setOutputAnalyser] = useState<AnalyserNode | null>(null);
+
+  const sample = useSampleCall();
+  const activeLineRef = useRef<HTMLDivElement | null>(null);
+
   const clientRef = useRef<GeminiLiveClient | null>(null);
   const audioRef = useRef<AudioManager | null>(null);
   const timerRef = useRef<number | null>(null);
@@ -59,6 +72,11 @@ export default function LiveTest() {
     }
   }, [callState]);
 
+  // Keep the active transcript line scrolled into view as the sample plays.
+  useEffect(() => {
+    activeLineRef.current?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+  }, [sample.activeIndex]);
+
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60).toString().padStart(2, '0');
     const s = (seconds % 60).toString().padStart(2, '0');
@@ -66,6 +84,7 @@ export default function LiveTest() {
   };
 
   const startCall = async () => {
+    sample.stop(); // never run the sample and a live call at once
     isCancelledRef.current = false;
     setError('');
     setCallState('connecting');
@@ -107,14 +126,16 @@ export default function LiveTest() {
       }
       return;
     }
-    
+
     // Check if the user ended the call while we were waiting for microphone access
     if (isCancelledRef.current) {
       audioManager.stopMicrophone();
       return;
     }
-    
+
     audioRef.current = audioManager;
+    setInputAnalyser(audioManager.getInputAnalyser());
+    setOutputAnalyser(audioManager.getOutputAnalyser());
 
     const client = new GeminiLiveClient(token, model);
     clientRef.current = client;
@@ -156,63 +177,106 @@ export default function LiveTest() {
       audioRef.current.stopPlayback();
       audioRef.current = null;
     }
+    setInputAnalyser(null);
+    setOutputAnalyser(null);
     setTimeout(() => {
       setCallState('idle');
       setDuration(0);
     }, 1000);
   };
 
-  const getButtonContent = () => {
-    switch (callState) {
+  const handleSampleToggle = () => {
+    if (callState !== 'idle') endCall();
+    sample.toggle();
+  };
+
+  const handleOrbClick = () => {
+    if (sample.isPlaying) {
+      sample.pause();
+      return;
+    }
+    if (callState === 'idle') startCall();
+  };
+
+  const orbMode: OrbMode = sample.isPlaying ? 'sample' : callState;
+  const orbStyle =
+    orbMode === 'idle'
+      ? { background: 'linear-gradient(135deg,#6C5CE7 0%,#22D3EE 100%)' }
+      : orbMode === 'sample'
+        ? { background: 'linear-gradient(135deg,#22D3EE 0%,#6C5CE7 100%)' }
+        : undefined;
+  const liveActive = callState === 'listening' || callState === 'speaking';
+  const waveActive = sample.isPlaying || liveActive;
+  const activeAnalyser = sample.isPlaying
+    ? sample.analyser
+    : callState === 'speaking'
+      ? outputAnalyser
+      : callState === 'listening'
+        ? inputAnalyser
+        : null;
+
+  const sampleVisible = sample.isPlaying || sample.activeIndex >= 0;
+  const orbDisabled = callState === 'connecting' || callState === 'ending';
+
+  const getOrbContent = () => {
+    switch (orbMode) {
       case 'idle':
-        return <><Mic size={32} className="mb-2" /><span className="font-bold text-lg">Tap to Talk</span></>;
+        return <><Mic size={30} className="mb-1.5" /><span className="font-bold text-base">Tap to Talk</span></>;
       case 'connecting':
-        return <><Loader2 size={32} className="mb-2 animate-spin" /><span className="font-bold text-lg">Connecting...</span></>;
+        return <><Loader2 size={30} className="mb-1.5 animate-spin" /><span className="font-bold text-base">Connecting…</span></>;
       case 'listening':
-        return <><Mic size={32} className="mb-2 animate-pulse" /><span className="font-bold text-lg">Listening...</span></>;
+        return <><Mic size={30} className="mb-1.5 animate-pulse" /><span className="font-bold text-base">Listening…</span></>;
       case 'speaking':
-        return <><Volume2 size={32} className="mb-2 animate-bounce" /><span className="font-bold text-lg">Agent Speaking...</span></>;
+        return <><Volume2 size={30} className="mb-1.5 animate-bounce" /><span className="font-bold text-base">Speaking…</span></>;
       case 'ending':
-        return <><PhoneOff size={32} className="mb-2" /><span className="font-bold text-lg">Ending...</span></>;
+        return <><PhoneOff size={30} className="mb-1.5" /><span className="font-bold text-base">Ending…</span></>;
+      case 'sample':
+        return <><Volume2 size={30} className="mb-1.5 animate-pulse" /><span className="font-bold text-base">Playing…</span></>;
     }
   };
 
-  const getButtonClass = () => {
-    const base = "w-40 h-40 rounded-full flex flex-col items-center justify-center text-white transition-all duration-500 shadow-xl relative z-10 ";
-    switch (callState) {
+  const getOrbClass = () => {
+    const base = 'relative z-10 w-40 h-40 rounded-full flex flex-col items-center justify-center text-white transition-all duration-500 shadow-xl disabled:cursor-default ';
+    switch (orbMode) {
       case 'idle':
-        return base + "bg-gradient-to-br from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 hover:scale-105 hover:shadow-[0_0_30px_rgba(99,102,241,0.5)]";
+        return base + 'hover:scale-105 hover:shadow-[0_0_45px_rgba(108,92,231,0.55)] cursor-pointer';
       case 'connecting':
-        return base + "bg-[var(--accent-amber)] animate-pulse shadow-[0_0_40px_rgba(245,158,11,0.5)]";
+        return base + 'bg-[var(--accent-amber)] animate-pulse shadow-[0_0_40px_rgba(245,158,11,0.5)]';
       case 'listening':
-        return base + "bg-[var(--accent-green)] shadow-[0_0_50px_rgba(16,185,129,0.6)] scale-105";
+        return base + 'bg-[var(--accent-green)] shadow-[0_0_55px_rgba(16,185,129,0.6)] scale-105';
       case 'speaking':
-        return base + "bg-[var(--accent-cyan)] shadow-[0_0_50px_rgba(34,211,238,0.6)] scale-105";
+        return base + 'bg-[var(--accent-cyan)] shadow-[0_0_55px_rgba(34,211,238,0.6)] scale-105';
       case 'ending':
-        return base + "bg-[var(--accent-red)]";
+        return base + 'bg-[var(--accent-red)]';
+      case 'sample':
+        return base + 'shadow-[0_0_55px_rgba(34,211,238,0.5)] scale-105 cursor-pointer';
     }
   };
 
   return (
-    <div className="w-full max-w-[480px] bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-3xl p-8 card-glow relative group overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[rgba(108,92,231,0.05)] to-transparent pointer-events-none"></div>
-      
-      <div className="relative z-10 flex flex-col items-center">
-        <div className="mb-6 text-center">
-          <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-2 font-cabinet">Test Our AI Agent</h3>
-          <p className="text-[var(--text-secondary)] text-sm">Experience real-time AI voice conversation</p>
-        </div>
+    <div className="w-full max-w-[460px] glass-card rounded-3xl p-7 card-glow relative overflow-hidden">
+      {/* hairline gradient top border + ambient wash */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[var(--accent-primary)] to-transparent opacity-60"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[rgba(108,92,231,0.06)] to-transparent pointer-events-none"></div>
 
-        <div className="w-full mb-8 relative">
-          <label htmlFor="language-select" className="text-xs font-medium text-[var(--text-tertiary)] uppercase tracking-wider mb-2 block text-center">Select Language</label>
-          <div className="relative max-w-[240px] mx-auto">
-            <Globe className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]" size={16} />
-            <select 
-              id="language-select"
+      <div className="relative z-10 flex flex-col items-center">
+        {/* Header */}
+        <div className="w-full flex items-center justify-between mb-5">
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--accent-green)] opacity-60"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--accent-green)]"></span>
+            </span>
+            <h3 className="text-[17px] font-bold text-[var(--text-primary)] font-cabinet">Talk to a Kotha agent</h3>
+          </div>
+          <div className="relative">
+            <Globe className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] pointer-events-none" size={14} />
+            <select
+              aria-label="Select language"
               value={language}
               onChange={(e) => setLanguage(e.target.value)}
-              disabled={callState !== 'idle'}
-              className="w-full bg-[var(--bg-tertiary)] text-[var(--text-primary)] border border-[var(--border-subtle)] rounded-xl py-3 pl-10 pr-4 text-sm focus:outline-none focus:border-[var(--accent-primary)] appearance-none cursor-pointer disabled:opacity-50"
+              disabled={callState !== 'idle' || sample.isPlaying}
+              className="bg-[var(--bg-tertiary)] text-[var(--text-secondary)] border border-[var(--border-subtle)] rounded-lg py-1.5 pl-7 pr-2 text-xs focus:outline-none focus:border-[var(--accent-primary)] appearance-none cursor-pointer disabled:opacity-50 max-w-[130px] truncate"
             >
               {LANGUAGES.map(l => (
                 <option key={l.code} value={l.name}>{l.name}</option>
@@ -221,59 +285,118 @@ export default function LiveTest() {
           </div>
         </div>
 
-        <div className="relative mb-8">
-          {/* Ripple effects */}
-          {(callState === 'listening' || callState === 'speaking') && (
-            <>
-              <div className="absolute inset-0 rounded-full bg-current opacity-20 animate-ping" style={{ color: callState === 'listening' ? 'var(--accent-green)' : 'var(--accent-cyan)', animationDuration: '2s' }}></div>
-              <div className="absolute inset-[-20px] rounded-full bg-current opacity-10 animate-ping" style={{ color: callState === 'listening' ? 'var(--accent-green)' : 'var(--accent-cyan)', animationDuration: '2.5s', animationDelay: '0.5s' }}></div>
-            </>
-          )}
-          
-          <button 
-            onClick={callState === 'idle' ? startCall : undefined}
-            disabled={callState === 'connecting' || callState === 'ending'}
-            className={getButtonClass()}
-            aria-label={callState === 'idle' ? 'Start Call' : callState === 'connecting' ? 'Connecting' : callState === 'listening' ? 'Listening' : callState === 'speaking' ? 'Agent Speaking' : 'Ending Call'}
+        {/* Reactive waveform ring + orb */}
+        <div className="relative flex items-center justify-center my-2" style={{ width: 240, height: 240 }}>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Waveform analyser={activeAnalyser} active={waveActive} size={240} />
+          </div>
+          <button
+            onClick={handleOrbClick}
+            disabled={orbDisabled}
+            style={orbStyle}
+            className={getOrbClass()}
+            aria-label={orbMode === 'idle' ? 'Tap to talk' : orbMode === 'sample' ? 'Pause sample call' : orbMode}
           >
-            {getButtonContent()}
+            {getOrbContent()}
           </button>
         </div>
 
-        {(callState === 'listening' || callState === 'speaking') && (
-          <div className="flex items-center justify-center gap-1.5 mb-6 h-8">
-            {[...Array(6)].map((_, i) => (
-              <div 
-                key={i} 
-                className="w-1.5 audio-wave-bar"
-                style={{ 
-                  color: callState === 'listening' ? 'var(--accent-green)' : 'var(--accent-cyan)',
-                  animationDuration: `${0.5 + Math.random() * 0.5}s`,
-                  animationDelay: `${Math.random() * 0.5}s`
-                }}
-              ></div>
-            ))}
-          </div>
-        )}
-
-        {(callState === 'listening' || callState === 'speaking' || callState === 'connecting') && (
-          <div className="flex flex-col items-center animate-fadeInUp">
-            <div className="text-3xl font-mono font-bold text-[var(--text-primary)] mb-6 tracking-wider">
+        {/* Live-call status: timer + end button */}
+        {(liveActive || callState === 'connecting') && (
+          <div className="flex flex-col items-center mt-2 animate-fadeInUp">
+            <div className="text-2xl font-mono font-bold text-[var(--text-primary)] mb-3 tracking-wider">
               {formatTime(duration)}
             </div>
-            
-            <button 
+            <button
               onClick={endCall}
-              className="bg-[rgba(239,68,68,0.1)] hover:bg-[var(--accent-red)] text-[var(--accent-red)] hover:text-white border border-[rgba(239,68,68,0.3)] px-8 py-3 rounded-full font-bold text-sm transition-all duration-300 flex items-center gap-2"
+              className="bg-[rgba(239,68,68,0.1)] hover:bg-[var(--accent-red)] text-[var(--accent-red)] hover:text-white border border-[rgba(239,68,68,0.3)] px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300 flex items-center gap-2"
             >
-              <PhoneOff size={16} />
+              <PhoneOff size={15} />
               End Call
             </button>
           </div>
         )}
 
+        {/* No-mic sample-call entry */}
+        {!liveActive && callState !== 'connecting' && (
+          <div className="w-full mt-3">
+            <button
+              onClick={handleSampleToggle}
+              className="mx-auto flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border-active)] text-[var(--text-secondary)] text-sm font-medium hover:border-[var(--accent-cyan)] hover:text-white transition-colors duration-300"
+            >
+              {sample.isPlaying ? <Pause size={15} /> : <Play size={15} />}
+              {sample.isPlaying ? 'Pause sample call' : 'No mic? Hear a sample call'}
+            </button>
+            {/* progress track */}
+            <div className="mt-3 h-[3px] w-full rounded-full bg-[var(--border-subtle)] overflow-hidden">
+              <div
+                className="h-full rounded-full transition-[width] duration-150"
+                style={{ width: `${sample.progress * 100}%`, background: 'linear-gradient(90deg,#6C5CE7,#22D3EE)' }}
+              ></div>
+            </div>
+          </div>
+        )}
+
+        {/* Transcript strip (synced Bangla) */}
+        <div className="w-full mt-4">
+          {sampleVisible ? (
+            <div className="max-h-[150px] overflow-y-auto no-scrollbar space-y-1.5 pr-1">
+              {sampleCall.segments.map((seg, i) => {
+                const isActive = i === sample.activeIndex;
+                const isAgent = seg.speaker === 'agent';
+                return (
+                  <div
+                    key={i}
+                    ref={isActive ? activeLineRef : undefined}
+                    className={`rounded-lg px-3 py-2 border-l-2 transition-all duration-300 ${
+                      isActive
+                        ? 'bg-[rgba(108,92,231,0.10)] border-[var(--accent-primary)]'
+                        : 'border-transparent opacity-45'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span
+                        className={`text-[10px] font-bold uppercase tracking-wider ${
+                          isAgent ? 'text-[var(--accent-cyan)]' : 'text-[var(--accent-glow)]'
+                        }`}
+                      >
+                        {isAgent ? 'Agent' : 'Caller'}
+                      </span>
+                      {seg.latencyMs && (
+                        <span
+                          className={`inline-flex items-center gap-0.5 text-[10px] font-semibold text-[var(--accent-cyan)] transition-opacity duration-300 ${
+                            isActive ? 'opacity-100' : 'opacity-70'
+                          }`}
+                        >
+                          <Zap size={10} fill="currentColor" />
+                          replied in ~{seg.latencyMs} ms
+                        </span>
+                      )}
+                    </div>
+                    <p
+                      className={`text-sm leading-snug ${
+                        isActive ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'
+                      }`}
+                    >
+                      {seg.bn}
+                    </p>
+                    {seg.en && <p className="text-[11px] text-[var(--text-tertiary)] mt-0.5">{seg.en}</p>}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            !liveActive &&
+            callState !== 'connecting' && (
+              <p className="text-xs text-[var(--text-tertiary)] text-center px-6 leading-relaxed">
+                A 30-second Bangla appointment call — the exact transcript lights up line-by-line as it plays. No microphone needed.
+              </p>
+            )
+          )}
+        </div>
+
         {error && (
-          <div className="mt-6 p-4 bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] rounded-xl text-[var(--accent-red)] text-sm text-center animate-fadeInUp">
+          <div className="mt-5 p-3 bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] rounded-xl text-[var(--accent-red)] text-sm text-center animate-fadeInUp">
             {error}
           </div>
         )}

@@ -1,6 +1,5 @@
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
-import DemoSection from '../components/DemoSection';
 import DashboardShowcase from '../components/DashboardShowcase';
 import PoweredBy from '../components/PoweredBy';
 import GlobalReach from '../components/GlobalReach';
@@ -24,8 +23,8 @@ export default function Home() {
     <>
       <Navbar />
       <main className="pt-20">
+        {/* Hero now hosts the live demo (was a separate <DemoSection/> below). */}
         <Hero />
-        <DemoSection />
         <DashboardShowcase />
         <PoweredBy />
         <GlobalReach />

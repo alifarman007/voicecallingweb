@@ -5,6 +5,11 @@ export class AudioManager {
   private source: MediaStreamAudioSourceNode | null = null;
   private onAudioDataCb: ((base64Pcm: string) => void) | null = null;
 
+  // Analysers for the reactive waveform. They tap the existing graph without
+  // altering the PCM capture/playback path.
+  private inputAnalyser: AnalyserNode | null = null;
+  private outputAnalyser: AnalyserNode | null = null;
+
   private playbackQueue: AudioBuffer[] = [];
   private isPlaying = false;
   private currentSource: AudioBufferSourceNode | null = null;
@@ -33,7 +38,19 @@ export class AudioManager {
       }
 
       this.source = this.audioContext.createMediaStreamSource(this.mediaStream);
-      
+
+      // Tap the mic for the inbound (listening) waveform, and prepare an
+      // analyser the playback path feeds for the outbound (speaking) waveform.
+      this.inputAnalyser = this.audioContext.createAnalyser();
+      this.inputAnalyser.fftSize = 256;
+      this.inputAnalyser.smoothingTimeConstant = 0.8;
+      this.source.connect(this.inputAnalyser);
+
+      this.outputAnalyser = this.audioContext.createAnalyser();
+      this.outputAnalyser.fftSize = 256;
+      this.outputAnalyser.smoothingTimeConstant = 0.8;
+      this.outputAnalyser.connect(this.audioContext.destination);
+
       this.processor = this.audioContext.createScriptProcessor(4096, 1, 1);
       
       this.processor.onaudioprocess = (e) => {
@@ -76,6 +93,14 @@ export class AudioManager {
       this.source.disconnect();
       this.source = null;
     }
+    if (this.inputAnalyser) {
+      this.inputAnalyser.disconnect();
+      this.inputAnalyser = null;
+    }
+    if (this.outputAnalyser) {
+      this.outputAnalyser.disconnect();
+      this.outputAnalyser = null;
+    }
     if (this.mediaStream) {
       this.mediaStream.getTracks().forEach(t => t.stop());
       this.mediaStream = null;
@@ -89,6 +114,14 @@ export class AudioManager {
 
   onAudioData(cb: (base64Pcm: string) => void) {
     this.onAudioDataCb = cb;
+  }
+
+  getInputAnalyser(): AnalyserNode | null {
+    return this.inputAnalyser;
+  }
+
+  getOutputAnalyser(): AnalyserNode | null {
+    return this.outputAnalyser;
   }
 
   playAudioChunk(base64PcmData: string) {
@@ -125,7 +158,7 @@ export class AudioManager {
     const buffer = this.playbackQueue.shift()!;
     this.currentSource = this.audioContext.createBufferSource();
     this.currentSource.buffer = buffer;
-    this.currentSource.connect(this.audioContext.destination);
+    this.currentSource.connect(this.outputAnalyser ?? this.audioContext.destination);
     
     const currentTime = this.audioContext.currentTime;
     if (this.nextPlayTime < currentTime) {
