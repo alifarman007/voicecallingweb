@@ -48,7 +48,18 @@ export default function Footer() {
       </div>
       <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-[var(--border-subtle)] flex flex-col md:flex-row justify-between text-xs text-[var(--text-tertiary)]">
         <p>© 2026 KOTHA AI Platform. All rights reserved.</p>
-        <p>Made with 💜 in Bangladesh</p>
+        <p>
+          Made in{' '}
+          <a
+            href="https://www.bnai.com.bd/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[var(--text-secondary)] hover:text-white transition-colors underline-offset-2 hover:underline"
+          >
+            BNAI
+          </a>{' '}
+          Research Lab
+        </p>
       </div>
     </footer>
   );
